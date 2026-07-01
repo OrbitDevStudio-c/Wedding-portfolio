@@ -1,81 +1,120 @@
-'use client';
+"use strict";
+"use client";
 
-import React from 'react';
-import { MessageCircle } from 'lucide-react';
+import { motion } from "framer-motion";
+import { FaInstagram, FaRegEnvelope, FaChevronUp } from "react-icons/fa";
 
 export default function Footer() {
-  const handleScrollToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleScrollToTop = () => {
+    (window as any).lenis?.scrollTo("#home", { duration: 2 });
+  };
+
+  const navLinks = [
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Garage", href: "#garage" },
+    { label: "Journeys", href: "#travel" },
+    { label: "Quiz", href: "#quiz" },
+  ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const id = href.substring(1);
+    const el = document.getElementById(id);
+    if (el) {
+      (window as any).lenis?.scrollTo(el, { offset: -60, duration: 1.5 });
+    }
   };
 
   return (
-    <footer className="py-16 px-6 md:px-12 lg:px-24 bg-[#07111F] relative z-10">
-      
-      {/* Glowing divider line */}
-      <div className="max-w-5xl mx-auto h-[1px] bg-gradient-to-r from-pink/5 via-pink/30 to-purple/5 mb-12" />
-
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+    <footer className="pt-20 pb-10 px-6 md:px-12 lg:px-24 bg-[#FFF7FB] relative overflow-hidden select-text border-t border-primary/5">
+      <div className="w-full max-w-7xl mx-auto flex flex-col items-center">
         
-        {/* Monogram link */}
-        <div className="space-y-2">
-          <a
-            href="#"
-            onClick={handleScrollToTop}
-            className="font-serif text-xl tracking-[0.25em] text-white hover:text-pink transition-colors"
-          >
-            ALICA
-          </a>
-          <p className="text-[10px] text-muted font-sans font-light tracking-[0.2em] uppercase">
-            Sometimes the best journeys begin with one hello.
-          </p>
+        {/* Animated Divider */}
+        <div className="w-full relative h-[1px] bg-primary/10 overflow-hidden mb-16">
+          <motion.div
+            animate={{ x: ["-100%", "100%"] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-transparent via-primary/45 to-transparent"
+          />
         </div>
 
-        {/* Social Icons row */}
-        <div className="flex gap-4">
-          <a
-            href="https://instagram.com/alicia_fictional"
-            target="_blank"
-            rel="noreferrer"
-            className="p-2.5 rounded-full bg-white/5 border border-white/5 hover:border-pink text-white hover:text-pink transition-all duration-300"
-            aria-label="Instagram"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-              <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-            </svg>
-          </a>
-          <a
-            href="https://linkedin.com/in/alicia_fictional"
-            target="_blank"
-            rel="noreferrer"
-            className="p-2.5 rounded-full bg-white/5 border border-white/5 hover:border-pink text-white hover:text-pink transition-all duration-300"
-            aria-label="LinkedIn"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-              <rect width="4" height="12" x="2" y="9" />
-              <circle cx="4" cy="4" r="2" />
-            </svg>
-          </a>
-          <a
-            href="https://wa.me/919876543210"
-            target="_blank"
-            rel="noreferrer"
-            className="p-2.5 rounded-full bg-white/5 border border-white/5 hover:border-pink text-white hover:text-pink transition-all duration-300"
-            aria-label="WhatsApp"
-          >
-            <MessageCircle size={15} />
-          </a>
+        {/* Closing Quote */}
+        <div className="text-center max-w-2xl mb-12">
+          <blockquote className="font-serif text-2xl sm:text-3xl font-light text-text-main italic">
+            "To build something beautiful, one must first believe in the possibility of it."
+          </blockquote>
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <span className="w-6 h-[1px] bg-primary/20" />
+            <span className="text-[9px] tracking-[0.25em] text-text-muted uppercase font-sans font-medium">Alica's Creed</span>
+            <span className="w-6 h-[1px] bg-primary/20" />
+          </div>
+        </div>
+
+        {/* Footer Navigation */}
+        <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-12">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
+              className="text-[10px] tracking-[0.2em] font-semibold text-text-muted hover:text-primary uppercase font-sans transition-colors duration-300 hover-target"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Top Scroll button */}
+        <button
+          onClick={handleScrollToTop}
+          className="w-10 h-10 rounded-full border border-primary/25 bg-white/45 backdrop-blur-md flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300 hover-target shadow-md hover:-translate-y-1 mb-10"
+          aria-label="Scroll to top"
+        >
+          <FaChevronUp className="w-3.5 h-3.5" />
+        </button>
+
+        {/* Creator Brand Sign-off */}
+        <div className="flex flex-col items-center gap-2 mb-10">
+          <span className="text-[8px] tracking-[0.25em] text-text-muted uppercase font-sans font-bold">CREATED BY</span>
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/orbitdevstuido logo.png"
+              alt="orbitDevStudio Logo"
+              className="h-7 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
+            />
+            <span className="font-serif text-sm tracking-widest text-text-main font-semibold">
+              orbitDevStudio
+            </span>
+          </div>
+        </div>
+
+        {/* Footer Base Info */}
+        <div className="w-full flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] tracking-widest text-text-muted/70 font-sans uppercase border-t border-primary/5 pt-10">
+          <div>
+            <span>ALICA PATEL &bull; MATRIMONIAL PORTFOLIO &bull; EDITION 2026</span>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <a
+              href="mailto:alicapatel44@gmail.com"
+              className="hover:text-primary transition-colors duration-300 hover-target"
+            >
+              Email
+            </a>
+            <a
+              href="https://instagram.com/patel44.a"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors duration-300 hover-target"
+            >
+              Instagram
+            </a>
+            <span>ALL RIGHTS RESERVED</span>
+          </div>
         </div>
 
       </div>
-
-      <div className="max-w-5xl mx-auto text-center md:text-left text-[9px] uppercase tracking-[0.25em] text-muted/50 mt-12 border-t border-white/[0.02] pt-6">
-        <p>© 2026 Alica Patel. Premium Editorial Matrimonial Portfolio.</p>
-      </div>
-
     </footer>
   );
 }
